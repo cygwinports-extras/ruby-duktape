@@ -1,0 +1,20 @@
+inherit rubygem
+
+NAME="ruby-duktape"
+VERSION=1.2.1.0
+RELEASE=1
+CATEGORY="Ruby"
+SUMMARY="Ruby Duktape JavaScript interpreter extension"
+DESCRIPTION="Duktape.rb is a Ruby C extension for the Duktape JavaScript
+interpreter."
+#HOMEPAGE="https://github.com/judofyr/duktape.rb"
+
+PKG_NAMES="${NAME} ${NAME}-doc"
+ruby_duktape_CONTENTS="${RUBYGEM_EXTDIR#/} ${RUBYGEM_INSTDIR#/} ${RUBYGEM_SPEC#/}"
+ruby_duktape_doc_CONTENTS=${RUBYGEM_DOCDIR#/}
+
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+	# src-separate is not included, so these throw off debuginfo
+	sed -i -e '/^\#line /d' ext/duktape/duktape.c
+}
